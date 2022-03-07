@@ -1,0 +1,17 @@
+body{
+    background-image: url('../img/buildings-gf9c182590_1920.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: bangers, comic neue;
+}
+
+h4{
+    background-color: #301ca0;
+    font-family: comic neue;
+    color: antiquewhite;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+    
+}
