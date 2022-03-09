@@ -18,8 +18,11 @@ $(document).ready(() => {
                 let peso = superHero.appearance.weight;
                 let alianzas = superHero.biography.aliases;
 
-                //console.log(superHero);
+                console.log(superHero);
                 crearGrafico(superHero);
+                for (let i = 0; i < superHero.powerstats.length; i++) {
+                    console.log(`${pokemon.stats[i].stat.name} ${pokemon.stats[i].base_stat}`);
+                }
 
                 $('#nombreHero').html(`
                 <div class="card mb-3" style="max-width: 540px;">
@@ -50,7 +53,7 @@ $(document).ready(() => {
             }
         });
 
-        
+
     });
 });
 
@@ -67,11 +70,12 @@ const crearGrafico = (heroRecibido) => {
             yValueFormatString: "##0.00\"%\"",
             indexLabel: "{label} {y}",
             dataPoints: [
-                { y: 79.45, label: "Google" },
-                { y: 7.31, label: "Bing" },
-                { y: 7.06, label: "Baidu" },
-                { y: 4.91, label: "Yahoo" },
-                { y: 1.26, label: "Others" }
+                { y: heroRecibido.powerstats.combat, label: "Combat"},
+                { y: heroRecibido.powerstats.durability, label: "Durability"},
+                { y: heroRecibido.powerstats.intelligence, label: "Intelligence"},
+                { y: heroRecibido.powerstats.power, label: "Power"},
+                { y: heroRecibido.powerstats.speed, label: "Speed"},
+                { y: heroRecibido.powerstats.strength, label: "Strength"},
             ]
         }]
     });
