@@ -1,15 +1,22 @@
+//EVENTO PARA CAPTURAR INFORMACIÓN
 $(document).ready(() => {
     $("form").submit((event) => {
         event.preventDefault();
+
+        //VALIDAR INFORMACIÓN CAPTURADA
         let valueInput = $("#txtId").val();
-        let regex = new RegExp(/\d+/); 
-        if (regex.test(valueInput)) { 
+        let regex = new RegExp(/\d+/);
+        if (regex.test(valueInput)) {
+
+            //API SUPERHERO MEDIANTE AJAX
             $.ajax({
                 type: "get",
                 url: `https://www.superheroapi.com/api.php/3525635500807579/${valueInput}`,
                 dataType: "json",
                 success: function (superHero) {
-                    var nombre = superHero.name;
+
+                    //VARIABLES CON INFORMACIÓN REQUERIDA DE SUPER HEROES
+                    let nombre = superHero.name;
                     let imagen = superHero.image.url;
                     let conexiones = superHero.connections["group-affiliation"];
                     let biografia = superHero.biography.publisher;
@@ -19,25 +26,26 @@ $(document).ready(() => {
                     let peso = superHero.appearance.weight;
                     let alianzas = superHero.biography.aliases;
 
-
-
                     console.log(superHero);
                     crearGrafico(superHero);
-                    for (let i = 0; i < superHero.powerstats.length; i++) {
-                    }
 
+                    //CICLO PARA RECORRER ARREGLOS Y OBJETOS                    
+                    for (let i = 0; i < superHero.powerstats.length; i++) {
+                    };
+
+                    //TARJETAS DE BOOTSTRAP
                     $('#nombreHero').html(`
-                 <div class="card">
-                    <div class="row no-gutters">
-                        <div class="col-md-2">
-                            <img src="${imagen}" class="card-img-left" height="50%">
+                    <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                      <div class="col-5">
+                        <img src="${imagen}" class="img-fluid" alt="imagenSuperHero">
+                      </div>
+                      <div class="col-7">
+                        <div class="card-body">
+                          <h5 class="card-title">${nombre}</h5>
+                          <p class="card-text"  style="font-family: comic neue; font-size: small">${conexiones}</p>
                         </div>
-                        <div class="col-md-10" style="font-family: comic neue;">
-                            <div class="card-body">
-                                <h5 class="card-title">Nombre: ${nombre}</h5>
-                                <p class="card-text">Conexiones: ${conexiones}</p>
-                            </div>
-                            <ul class="list-group list-group-flush">
+                        <ul class="list-group list-group-flush"  style="font-family: comic neue; font-size: small">
                                 <li class="list-group-item">Publicado por: ${biografia}</li>
                                 <li class="list-group-item">${ocupacion}</li>
                                 <li class="list-group-item">Primera aparición: ${primeraAparicion}</li>
@@ -45,23 +53,21 @@ $(document).ready(() => {
                                 <li class="list-group-item">Peso: ${peso[0]} - ${peso[1]}</li>
                                 <li class="list-group-item">Alianzas: ${alianzas.join(", ")}</li>
                             </ul>
-                        </div>
+                      </div>
                     </div>
-                 </div>
-                  `)
+                  </div>
+                  `);
 
                 }
             });
-         } else {
-            alert('Sólo se aceptan números')
-        }; 
+        } else {
+            alert('Debes ingresar un número')
+        };
 
     });
 });
 
-
-
-
+//GRÁFICO CREADO MEDIANTE CANVAS JS
 const crearGrafico = (heroRecibido) => {
     let chart = new CanvasJS.Chart("chartContainer", {
         animationEnabled: true,
