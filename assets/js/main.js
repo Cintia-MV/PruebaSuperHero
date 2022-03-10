@@ -2,24 +2,25 @@ $(document).ready(() => {
     $("form").submit((event) => {
         event.preventDefault();
         let valueInput = $("#txtId").val();
+        let regex = new RegExp(/\d+/); 
+        if (regex.test(valueInput)) { 
+            $.ajax({
+                type: "get",
+                url: `https://www.superheroapi.com/api.php/3525635500807579/${valueInput}`,
+                dataType: "json",
+                success: function (superHero) {
+                    var nombre = superHero.name;
+                    let imagen = superHero.image.url;
+                    let conexiones = superHero.connections["group-affiliation"];
+                    let biografia = superHero.biography.publisher;
+                    let ocupacion = superHero.work.occupation;
+                    let primeraAparicion = superHero.biography["first-appearance"];
+                    let altura = superHero.appearance.height;
+                    let peso = superHero.appearance.weight;
+                    let alianzas = superHero.biography.aliases;
 
-        $.ajax({
-            type: "get",
-            url: `https://www.superheroapi.com/api.php/3525635500807579/${valueInput}`,
-            dataType: "json",
-            success: function (superHero) {
-                var nombre = superHero.name;
-                let imagen = superHero.image.url;
-                let conexiones = superHero.connections["group-affiliation"];
-                let biografia = superHero.biography.publisher;
-                let ocupacion = superHero.work.occupation;
-                let primeraAparicion = superHero.biography["first-appearance"];
-                let altura = superHero.appearance.height;
-                let peso = superHero.appearance.weight;
-                let alianzas = superHero.biography.aliases;
 
-                let regex = new RegExp('\d');
-               /*  if (regex.test(valueInput)) { */
+
                     console.log(superHero);
                     crearGrafico(superHero);
                     for (let i = 0; i < superHero.powerstats.length; i++) {
@@ -47,13 +48,13 @@ $(document).ready(() => {
                         </div>
                     </div>
                  </div>
-                `)
-                /* } else {
-                    alert('Sólo se aceptan números')
-                }; */
-            }
-        });
+                  `)
 
+                }
+            });
+         } else {
+            alert('Sólo se aceptan números')
+        }; 
 
     });
 });
